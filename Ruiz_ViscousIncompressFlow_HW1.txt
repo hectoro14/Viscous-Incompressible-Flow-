@@ -1,0 +1,40 @@
+%Viscous Incompressible Flow 
+%Hector Ruiz 
+%CFD ME 3165-308
+%2/2/2018
+
+
+clc;clear
+n=input('Please enter number of nodes: ');
+%n=[10 50 100 500 ] %numbr of nodes can be preset
+%figure
+%hold on
+for l=1:length(n)
+y=0:1./n(l):1; %defines the y values used to calculate P
+b=.1;% heigth of pipe
+mu=8.3*10^-3; %viscocity of water
+V=1; %velocity
+dpdx=[-10:5:10]; %pressure gradient
+P=(b^2/(2*mu*V)).*(dpdx); %pressure calculated based of gradient
+
+x=zeros(length(P),length(y)); %creaste zero are to prealocate of x
+for i=1:length(P)
+    for j=1:length(y)
+        x(i,j)=y(:,j)+P(:,i).*y(:,j)-P(:,i).*y(:,j).^2; %equation used to calculate P
+    end
+end
+figure
+hold on
+for k=1:length(P)
+   plot(x(k,:),y)
+    title('Pipe Flow'); 
+    xlabel('Velocity (u/V)'); 
+    ylabel('Distance (y/b)'); 
+end
+hold off
+end
+%hold off
+        
+Reynnum=(b*(10^3)*V)/mu  %density of water at 1g/cm3
+
+
